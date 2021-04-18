@@ -9,6 +9,7 @@ import Foundation
 
 protocol ArticleSearchPresentation: AnyObject {
     func viewDidLoad()
+    func didSelectItem()
 }
 
 final class ArticleSearchPresenter {
@@ -24,6 +25,10 @@ final class ArticleSearchPresenter {
 
 extension ArticleSearchPresenter: ArticleSearchPresentation {
     func viewDidLoad() {
+//        router.navigate(to: .articleDetail)
+    }
+    
+    func didSelectItem() {
         router.navigate(to: .articleDetail)
     }
 }
