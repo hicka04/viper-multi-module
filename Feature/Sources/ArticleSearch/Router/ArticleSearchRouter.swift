@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import ArticleDetail
 
 enum ArticleSearchDestination {
     case articleDetail
@@ -35,6 +36,10 @@ public final class ArticleSearchRouter {
 
 extension ArticleSearchRouter: ArticleSearchWireframe {
     func navigate(to destination: ArticleSearchDestination) {
-        
+        switch destination {
+        case .articleDetail:
+            let articleDetailView = ArticleDetailRouter.assembleModules()
+            viewController.navigationController?.pushViewController(articleDetailView, animated: true)
+        }
     }
 }

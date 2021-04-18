@@ -18,6 +18,8 @@ final class ArticleSearchViewController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .blue
+        
+        presenter.viewDidLoad()
     }
 }
 
