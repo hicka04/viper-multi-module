@@ -1,0 +1,33 @@
+name: ViperMultiModule
+
+options:
+  bundleIdPrefix: com.hicka04.viper_multi_module
+  deploymentTarget:
+    iOS: 13.0
+
+targets:
+  ViperMultiModule:
+    type: application
+    platform: iOS
+    sources:
+     - ViperMultiModule
+    settings:
+      base:
+        INFOPLIST_FILE: ViperMultiModule/Info.plist
+    scheme:
+      testTargets:
+        - name: ViperMultiModuleTests
+          parallelizable: true
+          randomExecutionOrder: true
+      gatherCoverageData: true
+
+  ViperMultiModuleTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+     - ViperMultiModuleTests
+    settings:
+      base:
+        INFOPLIST_FILE: ViperMultiModuleTests/Info.plist
+    dependencies:
+      - target: ViperMultiModule
