@@ -14,6 +14,9 @@ targets:
     settings:
       base:
         INFOPLIST_FILE: ViperMultiModule/Info.plist
+    dependencies:
+      - package: Feature
+      - package: Logic
     scheme:
       testTargets:
         - name: ViperMultiModuleTests
@@ -31,3 +34,9 @@ targets:
         INFOPLIST_FILE: ViperMultiModuleTests/Info.plist
     dependencies:
       - target: ViperMultiModule
+
+packages:
+  Feature:
+    path: ./Feature
+  Logic:
+    path: ./Logic
