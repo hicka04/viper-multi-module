@@ -6,34 +6,34 @@ options:
     iOS: 13.0
 
 targets:
-  ViperMultiModule:
+  App:
     type: application
     platform: iOS
     sources:
-     - ViperMultiModule
+     - App
     settings:
       base:
-        INFOPLIST_FILE: ViperMultiModule/Info.plist
+        INFOPLIST_FILE: App/Info.plist
     dependencies:
       - package: Feature
       - package: Logic
     scheme:
       testTargets:
-        - name: ViperMultiModuleTests
+        - name: AppTests
           parallelizable: true
           randomExecutionOrder: true
       gatherCoverageData: true
 
-  ViperMultiModuleTests:
+  AppTests:
     type: bundle.unit-test
     platform: iOS
     sources:
-     - ViperMultiModuleTests
+     - AppTests
     settings:
       base:
-        INFOPLIST_FILE: ViperMultiModuleTests/Info.plist
+        INFOPLIST_FILE: AppTests/Info.plist
     dependencies:
-      - target: ViperMultiModule
+      - target: App
 
 packages:
   Feature:
