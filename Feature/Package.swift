@@ -24,17 +24,13 @@ let package = Package(
             name: "ArticleSearch",
             dependencies: ["ArticleDetail"]
         ),
-        .testTarget(
-            name: "ArticleSearchTests",
-            dependencies: ["ArticleSearch"]
-        ),
         .target(
             name: "ArticleDetail",
             dependencies: []
         ),
         .testTarget(
-            name: "ArticleDetailTests",
-            dependencies: ["ArticleDetail"]
+            name: "FeatureTests",
+            dependencies: ["ArticleSearch", "ArticleDetail"]
         )
     ]
 )
