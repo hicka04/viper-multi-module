@@ -7,6 +7,7 @@
 
 import UIKit
 import ArticleDetail
+import Domain
 
 enum ArticleSearchDestination {
     case articleDetail
@@ -26,7 +27,11 @@ public final class ArticleSearchRouter {
     public static func assembleModules() -> UIViewController {
         let view = ArticleSearchViewController()
         let router = ArticleSearchRouter(viewController: view)
-        let presenter = ArticleSearchPresenter(view: view, router: router)
+        let articleSearchInteractor = ArticleSearchInteractor()
+        let presenter = ArticleSearchPresenter(
+            router: router,
+            articleSearchInteractor: articleSearchInteractor
+        )
         
         view.presenter = presenter
         

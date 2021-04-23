@@ -22,7 +22,7 @@ let package = Package(
     targets: [
         .target(
             name: "ArticleSearch",
-            dependencies: ["ArticleDetail"]
+            dependencies: ["ArticleDetail", "Logic"]
         ),
         .target(
             name: "ArticleDetail",

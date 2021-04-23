@@ -8,5 +8,9 @@
 import UIKit
 
 class ArticleCell: UICollectionViewCell {
+    @IBOutlet private weak var label: UILabel!
     
+    func setArticle(_ article: String) {
+        label.text = article
+    }
 }

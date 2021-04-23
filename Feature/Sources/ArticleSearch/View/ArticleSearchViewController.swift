@@ -6,13 +6,21 @@
 //
 
 import UIKit
-
-protocol ArticleSearchView: AnyObject {
-    
-}
+import Combine
 
 final class ArticleSearchViewController: UICollectionViewController {
     var presenter: ArticleSearchPresentation!
+    
+    private var cancellables: Set<AnyCancellable> = []
+    
+    private lazy var dataSource: UICollectionViewDiffableDataSource<Int, String> = {
+        let dataSource = UICollectionViewDiffableDataSource<Int, String>(collectionView: collectionView) { (collectionView, indexPath, article) -> UICollectionViewCell? in
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ArticleCell", for: indexPath) as! ArticleCell
+            cell.setArticle(article)
+            return cell
+        }
+        return dataSource
+    }()
     
     init() {
         let layout: UICollectionViewCompositionalLayout = {
@@ -47,6 +55,14 @@ final class ArticleSearchViewController: UICollectionViewController {
         
         collectionView.register(UINib(nibName: "ArticleCell", bundle: .module), forCellWithReuseIdentifier: "ArticleCell")
         
+        presenter.articles
+            .sink { [self] articles in
+                var snapshot = NSDiffableDataSourceSnapshot<Int, String>()
+                snapshot.appendSections([0])
+                snapshot.appendItems(articles)
+                dataSource.apply(snapshot)
+            }.store(in: &cancellables)
+        
         presenter.viewDidLoad()
     }
     
@@ -61,8 +77,4 @@ final class ArticleSearchViewController: UICollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         presenter.didSelectItem()
     }
-}
-
-extension ArticleSearchViewController: ArticleSearchView {
-    
 }

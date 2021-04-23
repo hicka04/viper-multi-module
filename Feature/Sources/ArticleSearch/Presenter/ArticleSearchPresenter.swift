@@ -6,29 +6,46 @@
 //
 
 import Foundation
+import Combine
+import Domain
 
 protocol ArticleSearchPresentation: AnyObject {
+    var articles: CurrentValueSubject<[String], Never> { get }
+    
     func viewDidLoad()
     func didSelectItem()
 }
 
 final class ArticleSearchPresenter {
-    private weak var view: ArticleSearchView?
-    private let router: ArticleSearchWireframe
+    private var cancellables: Set<AnyCancellable> = []
     
-    init(view: ArticleSearchView,
-         router: ArticleSearchWireframe) {
-        self.view = view
-        self.router = router
+    private(set) var articles = CurrentValueSubject<[String], Never>([])
+    
+    private let viewDidLoadSubject = PassthroughSubject<Void, Never>()
+    private let didSelectItemSubject = PassthroughSubject<Void, Never>()
+    
+    init(router: ArticleSearchWireframe,
+         articleSearchInteractor: ArticleSearchUsecase) {
+        viewDidLoadSubject
+            .flatMap {
+                articleSearchInteractor
+                    .execute("Swift")
+            }.subscribe(articles)
+            .store(in: &cancellables)
+        
+        didSelectItemSubject
+            .sink {
+                router.navigate(to: .articleDetail)
+            }.store(in: &cancellables)
     }
 }
 
 extension ArticleSearchPresenter: ArticleSearchPresentation {
     func viewDidLoad() {
-//        router.navigate(to: .articleDetail)
+        viewDidLoadSubject.send()
     }
     
     func didSelectItem() {
-        router.navigate(to: .articleDetail)
+        didSelectItemSubject.send()
     }
 }
